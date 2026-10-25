@@ -9,6 +9,9 @@
   --mark-code: #0A1A45;
   --mark-jt: #0d76bb;
   --navy: #0A1A45;
+  --blob-a: #45adfc;
+  --blob-b: #0d76bb;
+  --blob-opacity: 0.12;
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --rounded: "Arial Rounded MT Bold", "Arial Rounded MT", ui-rounded, -apple-system, sans-serif;
   color-scheme: light dark;
@@ -24,6 +27,8 @@
     --accent: #45adfc;
     --mark-code: #45adfc;
     --mark-jt: #c1ff09;
+    --blob-b: #c1ff09;
+    --blob-opacity: 0.13;
   }
   body { background: radial-gradient(ellipse 120% 60% at 50% 0%, #0A1A45, #081433 55%, #050B1F) no-repeat, #050B1F; }
   .episodes .ep { color: #c1ff09; }
@@ -41,6 +46,49 @@ body {
 .wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
 
 a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+.bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+
+.blob {
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: var(--blob-opacity, 0.14);
+}
+.blob-1 { background: var(--blob-a, #45adfc); top: -160px; left: -140px; animation: drift-1 38s ease-in-out infinite alternate; }
+.blob-2 { background: var(--blob-b, #c1ff09); top: 40%; right: -200px; animation: drift-2 46s ease-in-out infinite alternate; }
+.blob-3 { background: var(--blob-a, #45adfc); bottom: -220px; left: 30%; animation: drift-3 52s ease-in-out infinite alternate; }
+@keyframes drift-1 { to { transform: translate(35vw, 30vh) scale(1.2); } }
+@keyframes drift-2 { to { transform: translate(-40vw, -25vh) scale(0.85); } }
+@keyframes drift-3 { to { transform: translate(-25vw, -45vh) scale(1.15); } }
+
+/* walkers face right; the flipped ones walk back the other way */
+.walker {
+  position: absolute;
+  left: 0;
+  width: 60px;
+  height: 68px;
+  opacity: 0.55;
+  image-rendering: pixelated;
+}
+.walker-1 { top: 22%; animation: walk-right 70s linear infinite; }
+.walker-2 { top: 61%; animation: walk-left 85s linear infinite -30s; }
+.walker-3 { top: 88%; width: 45px; height: 51px; opacity: 0.4; animation: walk-right 110s linear infinite -75s; }
+@keyframes walk-right {
+  from { transform: translateX(-80px); }
+  to { transform: translateX(calc(100vw + 80px)); }
+}
+@keyframes walk-left {
+  from { transform: translateX(calc(100vw + 80px)) scaleX(-1); }
+  to { transform: translateX(-80px) scaleX(-1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blob { animation: none; }
+  .walker { display: none; }
+}
 
 .mark-code { stroke: var(--mark-code); }
 .mark-jt { stroke: var(--mark-jt); }
