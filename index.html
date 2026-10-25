@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jon Taylor</title>
+  <meta name="description" content="Jon Taylor, backend software engineer. Videos about how real systems fail, the code behind them, and Tabstronaut for VS Code.">
+  <link rel="icon" href="https://raw.githubusercontent.com/jhhtaylor/tabstronaut/main/media/icon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="wrap top">
+    <a class="name" href="#">Jon Taylor</a>
+    <nav>
+      <a href="#videos">Videos</a>
+      <a href="#code">Code</a>
+      <a href="#tabstronaut">Tabstronaut</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <p class="kicker">Backend software engineer</p>
+      <h1>I build backend systems, and I make videos about how real ones break.</h1>
+      <p class="lede">
+        Day to day I work on C# .NET, SQL and Azure for a healthcare billing platform.
+        Outside of that I run a YouTube channel that takes apart real outages down to the code,
+        keep a Go repo with a runnable model for every episode, and maintain Tabstronaut, a tab
+        manager for VS Code.
+      </p>
+      <p class="links">
+        <a href="https://www.youtube.com/@jhhtaylor">YouTube</a>
+        <a href="https://github.com/jhhtaylor">GitHub</a>
+        <a href="https://linkedin.com/in/jhhtaylor">LinkedIn</a>
+        <a href="https://eminencegrise.itch.io/">itch.io</a>
+      </p>
+    </section>
+
+    <section id="videos">
+      <h2>Distributed Systems Deep Dive</h2>
+      <p>
+        Each episode starts with the headline: a bank that forgot everyone's balance, a database
+        that answered with nothing. Then it goes through how the system normally works, where the
+        flaw was and how the failure spread. The last part is the bit most outage videos skip. I
+        look at why the team built it that way (a deadline, a vendor contract, what the industry
+        knew at the time), reproduce the failure in a small program, and show the fix I'd actually
+        ship on a real team.
+      </p>
+
+      <ol class="episodes">
+        <li>
+          <span class="ep">01</span>
+          <div>
+            <h3>The Night a Bank Forgot Everyone's Balance</h3>
+            <p class="meta">RBS/NatWest, June 2012</p>
+            <p>A scheduler change broke the overnight batch on a mainframe core and stalled payments for millions. Introduces CAP and PACELC.</p>
+          </div>
+        </li>
+        <li>
+          <span class="ep">02</span>
+          <div>
+            <h3>Why a Central Bank Relocated $10 Billion in Gold</h3>
+            <p class="meta">De Nederlandsche Bank, 2026</p>
+            <p>86 tonnes of gold moved across the Atlantic, partly by plane and partly on paper, treated as a zero-downtime migration.</p>
+          </div>
+        </li>
+        <li>
+          <span class="ep">03</span>
+          <div>
+            <h3>Phantom Nodes: The Cassandra Ring</h3>
+            <p class="meta">Monzo, July 2019</p>
+            <p>Six nodes joined the ring without their data, so quorum reads came back "row not found". Consistent hashing, replication and quorum.</p>
+          </div>
+        </li>
+        <li>
+          <span class="ep">04</span>
+          <div>
+            <h3>The Race That Took Down Half the Internet</h3>
+            <p class="meta">AWS us-east-1, October 2025</p>
+            <p>Two DNS enactors raced a check-then-act and left DynamoDB's endpoint empty. Reproduced with goroutines, fixed with compare-and-swap.</p>
+          </div>
+        </li>
+        <li class="next">
+          <span class="ep">05</span>
+          <div>
+            <h3>Christmas Day, Paid Twice</h3>
+            <p class="meta">Santander UK, 2021 &middot; coming next</p>
+            <p>About 75,000 payments sent a second time on Christmas morning. Idempotency keys, and why "same payee, same amount" is the wrong check.</p>
+          </div>
+        </li>
+      </ol>
+
+      <p><a class="button" href="https://www.youtube.com/@jhhtaylor">Watch on YouTube</a></p>
+
+      <h3 class="sub">Coming up</h3>
+      <p>
+        New episodes go out roughly every two weeks, in blocks of four around one theme. Next up
+        is fintech (TSB's 2018 migration, the Post Office Horizon scandal, Verification of Payee),
+        then databases in practice, then queues, load and concurrency.
+      </p>
+    </section>
+
+    <section id="code">
+      <h2>The code behind the episodes</h2>
+      <p>
+        <a href="https://github.com/jhhtaylor/distributed-systems-deep-dive">distributed-systems-deep-dive</a>
+        has one folder per episode, each with a small runnable Go model of the mechanism and tests
+        that pin down the behaviour shown in the video. Where a company's real code isn't public,
+        the model is a reconstruction from the postmortem, and the episode's README says so.
+      </p>
+      <pre><code>go test ./...                          # every episode's tests
+go run ./ep03-monzo-quorum/cmd/demo    # one episode's demo</code></pre>
+      <ul class="repo-list">
+        <li><code>ep01-rbs-batch-vs-queue</code> A batch run halting on one bad job vs an event-driven queue with a dead-letter queue</li>
+        <li><code>ep02-dnb-gold-migration</code> A live migration over two independent paths where the total never changes</li>
+        <li><code>ep03-monzo-quorum</code> A token ring where nodes join without data, and the quorum reads that follow</li>
+        <li><code>ep04-aws-dns-race</code> Two enactors racing a check-then-act, fixed with compare-and-swap</li>
+        <li><code>ep05-santander-duplicate-payments</code> A scheduler that pays twice, and an idempotency key claimed before the money moves</li>
+      </ul>
+    </section>
+
+    <section id="tabstronaut">
+      <div class="project">
+        <img src="https://raw.githubusercontent.com/jhhtaylor/tabstronaut/main/media/Tabstronaut.png" alt="Tabstronaut logo" width="120" height="120">
+        <div>
+          <h2>Tabstronaut</h2>
+          <p>
+            A tab manager for VS Code. Save groups of tabs and bring them back later, snapshot a
+            split-editor layout and restore it exactly, drag groups around and nest them, and copy
+            file paths or <code>@</code> mentions for AI chat tools. Every action has a keyboard
+            shortcut. It placed 4th in the Entelect Tech Accelerator competition.
+          </p>
+          <p class="links">
+            <a href="https://marketplace.visualstudio.com/items?itemName=jhhtaylor.tabstronaut">VS Code Marketplace</a>
+            <a href="https://github.com/jhhtaylor/tabstronaut">Source</a>
+            <a href="https://x.com/tabstronaut_dev">@tabstronaut_dev</a>
+          </p>
+        </div>
+      </div>
+      <img class="demo" src="https://raw.githubusercontent.com/jhhtaylor/tabstronaut/main/media/tabstronaut-demo.gif" alt="Tabstronaut saving and restoring tab groups" loading="lazy">
+    </section>
+
+    <section id="about">
+      <h2>About</h2>
+      <p>
+        I'm a software engineer at The Craneware Group. Before that I was at Entelect, where I
+        worked on sales planning for De Beers (RabbitMQ, React with SignalR) and led front-end
+        work on a greenfield Angular project for Standard Bank. I have a BSc in Electrical and
+        Information Engineering from Wits, plus Azure and AWS certifications, and I once
+        built a <a href="https://drive.google.com/file/d/164qCd-4T5nT_fK7WOB7VX9Pg-xsBQGyI/view">deep learning model to decode LDPC codes</a>.
+      </p>
+      <p>
+        Away from the keyboard I run long distances. My first marathon was the Joburg North City
+        Marathon, after 18 weeks of training.
+      </p>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <p>Jon Taylor &middot; <a href="https://github.com/jhhtaylor">github.com/jhhtaylor</a></p>
+  </footer>
+</body>
+</html>
