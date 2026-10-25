@@ -1,23 +1,32 @@
+/* Brand palette: see Branding/Logo/final/README.md. Volt is for dark backgrounds only. */
 :root {
-  --bg: #fbfaf8;
-  --fg: #1d1d1b;
-  --muted: #66645e;
-  --line: #e4e1da;
-  --card: #f2f0ea;
-  --accent: #c2410c;
+  --bg: #f7f6fb;
+  --fg: #0A1A45;
+  --muted: #4a5470;
+  --line: #dfdeea;
+  --card: #eeedf5;
+  --accent: #0d76bb;
+  --mark-code: #0A1A45;
+  --mark-jt: #0d76bb;
+  --navy: #0A1A45;
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --rounded: "Arial Rounded MT Bold", "Arial Rounded MT", ui-rounded, -apple-system, sans-serif;
   color-scheme: light dark;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #141413;
-    --fg: #ecebe6;
-    --muted: #9b998f;
-    --line: #2c2b28;
-    --card: #1d1c1a;
-    --accent: #f08a4b;
+    --bg: #050B1F;
+    --fg: #ffffff;
+    --muted: #a8b1c5;
+    --line: #16224a;
+    --card: #081433;
+    --accent: #45adfc;
+    --mark-code: #45adfc;
+    --mark-jt: #c1ff09;
   }
+  body { background: radial-gradient(ellipse 120% 60% at 50% 0%, #0A1A45, #081433 55%, #050B1F) no-repeat, #050B1F; }
+  .episodes .ep { color: #c1ff09; }
 }
 
 * { box-sizing: border-box; }
@@ -33,19 +42,53 @@ body {
 
 a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
 
+.mark-code { stroke: var(--mark-code); }
+.mark-jt { stroke: var(--mark-jt); }
+
 .top {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 8px 24px;
-  padding-top: 28px;
-  padding-bottom: 28px;
+  padding-top: 24px;
+  padding-bottom: 24px;
 }
-.top .name { color: var(--fg); font-weight: 650; text-decoration: none; }
+.top .name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--fg);
+  font-family: var(--rounded);
+  font-weight: 700;
+  font-size: 19px;
+  text-decoration: none;
+}
+.top .mark { width: 34px; height: 27px; }
 .top nav { display: flex; gap: 18px; flex-wrap: wrap; }
 .top nav a { color: var(--muted); text-decoration: none; font-size: 15px; }
 .top nav a:hover { color: var(--fg); }
+
+.banner { position: relative; margin: 0 0 8px; }
+.banner img { display: block; width: 100%; height: auto; border-radius: 10px; }
+.banner figcaption {
+  position: absolute;
+  right: 0;
+  top: 42%;
+  min-width: 50%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: #0A1A45;
+  color: #fff;
+  border-radius: 6px 0 0 6px;
+  --mark-code: #45adfc;
+  --mark-jt: #c1ff09;
+}
+.banner .mark { flex: none; width: 46px; height: 36px; }
+.banner strong { display: block; font-family: var(--rounded); font-size: clamp(22px, 4vw, 32px); line-height: 1.1; }
+.banner figcaption span span { display: block; color: #a8b1c5; font-size: 13px; margin-top: 4px; white-space: nowrap; }
 
 section { padding: 40px 0; border-top: 1px solid var(--line); }
 section.hero { border-top: 0; padding-top: 32px; }
@@ -102,9 +145,22 @@ pre {
 .project h2 { margin-top: 4px; }
 .demo { width: 100%; height: auto; margin-top: 24px; border-radius: 8px; border: 1px solid var(--line); }
 
-footer { padding-top: 24px; padding-bottom: 48px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+footer {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding-top: 24px;
+  padding-bottom: 48px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 15px;
+}
+footer .duck { flex: none; }
 
 @media (max-width: 560px) {
+  .banner img { border-radius: 10px 10px 0 0; }
+  .banner figcaption { position: static; border-radius: 0 0 10px 10px; }
+  .banner figcaption span span { white-space: normal; }
   .project { flex-direction: column; }
   .project img { width: 88px; height: 88px; }
 }
