@@ -155,7 +155,7 @@ footer {
   color: var(--muted);
   font-size: 15px;
 }
-footer .duck { flex: none; }
+footer .mascot { flex: none; }
 
 @media (max-width: 560px) {
   .banner img { border-radius: 10px 10px 0 0; }
